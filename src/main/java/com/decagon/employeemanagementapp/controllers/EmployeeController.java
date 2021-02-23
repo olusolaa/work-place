@@ -2,7 +2,9 @@ package com.decagon.employeemanagementapp.controllers;
 
 
 import com.decagon.employeemanagementapp.dtos.*;
+import com.decagon.employeemanagementapp.model.Attendance;
 import com.decagon.employeemanagementapp.model.Employee;
+import com.decagon.employeemanagementapp.service.AttendanceService;
 import com.decagon.employeemanagementapp.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -21,10 +25,12 @@ import javax.validation.Valid;
 public class EmployeeController {
 
     private EmployeeService employeeService;
+    private AttendanceService attendanceService;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, AttendanceService attendanceService) {
         this.employeeService = employeeService;
+        this.attendanceService = attendanceService;
     }
 
     /**
@@ -43,12 +49,12 @@ public class EmployeeController {
         return "auth";
     }
 
-    @GetMapping("/home")
-    public String home(HttpSession session) {
-        var admin = session.getAttribute("principal");
-        if (admin == null) return "redirect:/";
-        return "home";
-    }
+//    @GetMapping("/home")
+//    public String home(HttpSession session) {
+//        var admin = session.getAttribute("principal");
+//        if (admin == null) return "redirect:/";
+//        return "home";
+//    }
 
     @PostMapping(path = "/login")
     public String loginPost(Model model, LoginDto loginDto, HttpSession session) {
@@ -76,8 +82,11 @@ public class EmployeeController {
     @GetMapping (path = "/employee")
     public String getEmployeeDashboard(HttpSession session, Model model){
         Employee employee = (Employee) session.getAttribute("principal");
-        model.addAttribute("employee", employee);
         if (employee == null) return "redirect:/";
+        model.addAttribute("employee", employee);
+
+//        model.addAttribute("isLate", a));
+
         return "employee";
     }
 
@@ -135,8 +144,10 @@ public class EmployeeController {
     public String getEmployeeById(@PathVariable Long id, Model model, HttpSession session) {
         var admin = session.getAttribute("principal");
         if (admin == null)return "redirect:/";
-        model.addAttribute("employeeDetail", employeeService.getEmployeeById(id));
-        return "get-employee";
+        Employee employee = employeeService.getEmployeeById(id);
+        model.addAttribute("employeeDetail", employee);
+        model.addAttribute("attendanceList", attendanceService.getAttendanceById(employee));
+        return "get-employee-detail";
         //@PathVariable(value = "id") long id
     }
 

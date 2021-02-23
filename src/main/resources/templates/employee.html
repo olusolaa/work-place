@@ -55,7 +55,7 @@
                     <a th:href="@{/employee/mark-attendance}" href="investigaciones/favoritas"><i class="fa fa-fw fa-user-plus"></i> Mark Attendance</a>
                 </li>
                 <li>
-                    <a th:href="@{/employee}"><i class="fa fa-fw fa fa-question-circle"></i> Attendance History</a>
+                    <a th:href="@{/employee/attendance-history}"><i class="fa fa-fw fa fa-question-circle"></i> Attendance History</a>
                 </li>
             </ul>
         </div>
@@ -80,11 +80,10 @@
                 <table class="table table-hover">
                     <thead>
                     <tr>
-                        <th scope="col">ID</th>
                         <th scope="col">First Name</th>
                         <th scope="col">Last Name</th>
                         <th scope="col">Email</th>
-                        <th scope="col">Is Present</th>
+                        <th scope="col">Is Late</th>
                         <th></th>
                         <th></th>
                         <!--                        <th scope="col">Edit List </th>-->
@@ -96,10 +95,10 @@
 
                     </tr>
                     <tr>
-                        <td th:text="${employee.id}"></td>
                         <td th:text="${employee.firstName}"> </td>
                         <td th:text="${employee.lastName}"></td>
                         <td th:text="${employee.email}"></td>
+<!--                        <td th:text="${isLate}"></td>-->
 <!--                        <td th:text="${employee.getAttendances()[1].isPresent()}"></td>-->
                         <td scope="col"></td>
 

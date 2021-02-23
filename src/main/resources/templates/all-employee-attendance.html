@@ -97,10 +97,10 @@
                     <thead>
                     <tr>
                         <th scope="col">ID</th>
-                        <th scope="col">Created At</th>
+                        <th scope="col">Time</th>
                         <th scope="col">Last Name</th>
                         <th scope="col">First Name</th>
-                        <th scope="col">Is Present</th>
+                        <th scope="col">Is Late</th>
                         <!--                        <th scope="col">Edit List </th>-->
                         <!--                        <th scope="col">list info</th>-->
                     </tr>
@@ -111,10 +111,10 @@
                     </tr>
                     <tr th:each="attendance: ${attendanceList}">
                         <td th:text="${attendance.id}"></td>
-                        <td th:text="${attendance.getUpdatedAt()}"> </td>
+                        <td th:text="${attendance.localTime}"> </td>
                         <td th:text="${attendance.getEmployee().lastName}"> </td>
                         <td th:text="${attendance.getEmployee().firstName}"></td>
-                        <td th:text="${attendance.isPresent()}" class ="name"> </td>
+                        <td th:text="${attendance.isLate}" > </td>
 
                         <td>
 

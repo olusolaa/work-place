@@ -27,6 +27,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     //I dont really understand this part
     @Override
     public ResponseDto logIn(LoginDto loginDto) {
+
+
         ResponseDto response = new ResponseDto();
         try{
             Optional<Employee> employeeDb1 = employeeRepository.findByEmailAndPassword(loginDto.getEmail(), loginDto.getPassword());
@@ -77,8 +79,6 @@ public class EmployeeServiceImpl implements EmployeeService {
                 if (employeeDb.isPresent() && employeeDb.get().getPassword() != null) {
                     throw new ResourceNotFoundException("Unsuccessful! This user has ALREADY been activated");
                 }
-                System.out.println("I got here in db");
-               // System.out.println(activationDto.getPassword());
                 employeeDb2.get().setPassword(activationDto.getPassword());
                 employeeRepository.save(employeeDb2.get());
                 System.out.println(employeeDb2.get().getPassword());

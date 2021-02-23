@@ -45,7 +45,7 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
                 <li>
-                    <a th:href="@{/employee}" href="sugerencias"><i class="fa fa-fw fa-paper-plane-o"></i> Admin Dashboard</a>
+                    <a th:href="@{/employee}" href="sugerencias"><i class="fa fa-fw fa-paper-plane-o"></i> Employee Dashboard</a>
                 </li>
                 <li>
                     <!--                    <a th:href="@{/employee/mark-attendance}" data-toggle="collapse" data-target="#submenu-1"><i class="fa fa-fw fa-search"></i> Mark Attendance<i ></i></a>-->
@@ -55,7 +55,7 @@
                     <a th:href="@{/employee/mark-attendance}" href="investigaciones/favoritas"><i class="fa fa-fw fa-user-plus"></i> Mark Attendance</a>
                 </li>
                 <li>
-                    <a th:href="@{/admin/all-employee/attendance/}"><i class="fa fa-fw fa fa-question-circle"></i> Attendance History</a>
+                    <a th:href="@{/employee/attendance-history}"><i class="fa fa-fw fa fa-question-circle"></i> Attendance History</a>
                 </li>
             </ul>
         </div>
@@ -67,62 +67,60 @@
             <!-- Page Heading -->
             <div class="row" id="main" >
                 <div class="col-sm-12 col-md-12 well" id="content">
-                    <h1> Employee Records</h1>
+                    <h1> Welcome To My ProFile</h1>
+                    <span th:text="${marked}" style="color: red"></span>
                 </div>
             </div>
             <!-- /.row -->
 
+        <div class="card">
+            <h1></h1>
+            <h1>Employee Attendance History</h1>
+
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <!--                    <th scope="col">ID</th>-->
+                    <!--                    <th scope="col">Created At</th>-->
+                    <th scope="col">Date</th>
+                    <th scope="col">Time Signed In</th>
+                    <th scope="col">Is Late</th>
+                    <!--                        <th scope="col">Edit List </th>-->
+                    <!--                        <th scope="col">list info</th>-->
+                </tr>
+                </thead>
+                <tbody>
 
 
-            <div class="card">
+                </tr>
+                <tr th:each="attendance: ${attendanceList}">
+                    <!--                    <td th:text="${attendance.id}"></td>-->
+                    <!--                    <td th:text="${attendance.getUpdatedAt()}"> </td>-->
+                    <td th:text="${attendance.monthDay}"> </td>
+                    <td th:text="${attendance.getLocalTime()}"></td>
+                    <td th:text="${attendance.isLate}" class ="name"> </td>
 
-                <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">First Name</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col">Last Name</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th></th>
-                        <th></th>
-                        <!--                        <th scope="col">Edit List </th>-->
-                        <!--                        <th scope="col">list info</th>-->
-                    </tr>
-                    </thead>
-                    <tbody>
+                    <td>
 
+                    </td>
 
-                    </tr>
-                        <td th:text="${employee.firstName}"> </td>
-                        <td scope="col"></td>
-                        <td scope="col"></td>
-                        <td th:text="${employee.lastName}" class ="name"> </td>
-                        <td scope="col"></td>
-                        <td scope="col"></td>
-
-                        <td>
-
-                        </td>
-
-                        <td >
-                            <a class="btn btn-sm btn-primary" th:href="@{/update-employee/{id}(id=${employee.id})}"> <i class="far fa-edit"></i> edit</a>
-                            <a class="btn btn-sm btn-danger" th:href="@{/admin/delete-employee/{id}(id=${employee.id})}"> <i class="fas fa-trash-alt"></i> delete</a>
-                            <a class="btn btn-sm btn-info" th:href="@{/admin/get-employee-detail/{id}(id=${employee.id})}"> <i class="fas fa-info-circle"></i> Details</a>
-                        </td>
-                    </tr>
+                    <td >
+                        <!--                    <a class="btn btn-sm btn-primary" th:href="@{/admin/update-get(id=${employeeDetail.id})}"> <i class="far fa-edit"></i> edit</a>-->
+                        <!--                    <a class="btn btn-sm btn-danger" th:href="@{/admin/delete-employee/{id}(id=${employeeDetail.id})}"> <i class="fas fa-trash-alt"></i> delete</a>-->
+                        <!--                    <a class="btn btn-sm btn-info" th:href="@{/admin/get-employee-detail/{id}(id=${employeeDetail.id})}"> <i class="fas fa-info-circle"></i> Details</a>-->
+                    </td>
+                </tr>
 
 
-                    </tbody>
-                </table>
-            </div>
-            <!-- Large modal -->
+                </tbody>
+            </table>
         </div>
-        <!-- /.container-fluid -->
+
+        <!-- Large modal -->
     </div>
-    <!-- /#page-wrapper -->
+    <!-- /.container-fluid -->
+</div>
+<!-- /#page-wrapper -->
 </div><!-- /#wrapper -->
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>

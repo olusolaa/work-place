@@ -26,6 +26,7 @@ public class Employee extends BaseModel{
     @Column(name = ("password"))
     private String password;
 
+
     public Employee() {
 
     }
@@ -39,8 +40,8 @@ public class Employee extends BaseModel{
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
     private List<Leave> leaves;
 
-    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
-    private List<Salary> salaries;
+//    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
+//    private List<Salary> salaries;
 
     @OneToMany
     private List<Attendance> attendances;

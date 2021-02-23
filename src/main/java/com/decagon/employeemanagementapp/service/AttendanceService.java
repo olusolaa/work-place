@@ -4,6 +4,7 @@ import com.decagon.employeemanagementapp.model.Attendance;
 import com.decagon.employeemanagementapp.model.Employee;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import java.util.Map;
 public interface AttendanceService {
 
     String markAttendance(Employee employee);
+//    Boolean getIsLateById(Employee employee);
     List<Attendance> getAttendanceById(Employee employee);
     List<Attendance> getAllEmployeeAttendance();
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
@@ -30,11 +31,9 @@ public class AttendanceController {
 
     @GetMapping(path = "/employee/mark-attendance")
     public String markAttendance(HttpSession session, RedirectAttributes redirectAttributes){
-        System.out.println("in attendance");
         Employee employee = (Employee) session.getAttribute("principal");
         String response2 = attendanceService.markAttendance(employee);
         redirectAttributes.addFlashAttribute("marked", response2);
-        System.out.println("attence marked");
         return "redirect:/employee";
     }
 
@@ -62,5 +61,15 @@ public class AttendanceController {
 
         return "all-employee-attendance";
 
+    }
+
+    @GetMapping("/employee/attendance-history")
+    public String getAllAttendanceById(HttpSession session, Model model) {
+        Employee employee = (Employee) session.getAttribute("principal");
+        if (employee == null) {
+            return "redirect:/";
+        }
+        model.addAttribute("attendanceList", attendanceService.getAttendanceById(employee));
+        return "attendance-history";
     }
 }

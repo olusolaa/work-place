@@ -8,7 +8,10 @@ import com.decagon.employeemanagementapp.service.AttendanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.MonthDay;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -23,44 +26,57 @@ public class AttendanceServiceImpl implements AttendanceService {
         this.employeeRepository = employeeRepository;
     }
 
+    LocalDateTime newStartDateTime;
+    LocalDateTime newEndDateTime;
 
     @Override
     public String markAttendance(Employee employee) {
         String responce2;
+
         LocalDateTime localDateTime = LocalDateTime.now();
-        String date = localDateTime.toString().split("T")[0];
-        String time = localDateTime.toString().split("T")[1];
-        String hour = time.split(":")[0];
-        String newStartTime = hour.replace(hour,"08:00:00.000");
-        String newEndTime = hour.replace(hour,"17:00:00.000");
-        String newStartDate = date+"T"+newStartTime;
-        String newEndDate = date+"T"+newEndTime;
+        LocalTime localTime = LocalTime.now();
+        LocalDate localDate = LocalDate.now();
+        String resumption = "08:00:00.000";
+        String closing = "17:00:00.000";
+
+
+        String temp1 = localDate+"T"+resumption;
+        String temp2 = localDate+"T"+closing;
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
-        LocalDateTime localStartDate = LocalDateTime.parse(newStartDate, dateTimeFormatter);
-        LocalDateTime localEndDate = LocalDateTime.parse(newEndDate, dateTimeFormatter);
-        if (localDateTime.isBefore(localStartDate)){
+        newStartDateTime = LocalDateTime.parse(temp1, dateTimeFormatter);
+        newEndDateTime = LocalDateTime.parse(temp2, dateTimeFormatter);
+        if (localDateTime.isBefore(newStartDateTime)){
             responce2 = "Too early to mark attendance";
-        }else if (localDateTime.isAfter(localEndDate)){
+        }else if (localDateTime.isAfter(newEndDateTime)){
             responce2 ="Too late to mark attendance";
         }else{
-            Optional<Attendance> employeeAttendance = attendanceRepository.findByEmployeeAndAttendanceBetween(employee, localStartDate, localEndDate);
+            Optional<Attendance> employeeAttendance = attendanceRepository.findByEmployeeAndAttendanceBetween(employee, newStartDateTime, newEndDateTime);
             if (employeeAttendance.isEmpty()) {
                 Optional<Employee> employeeDb = employeeRepository.findById(employee.getId());
-                if (employeeDb.isPresent()) {
                     Attendance attendance = new Attendance();
                     attendance.setEmployee(employeeDb.get());
-                    attendance.setPresent(true);
+                    if (localTime.isBefore(LocalTime.parse("09:00:00.000", DateTimeFormatter.ofPattern("HH:mm:ss.SSS")))){
+                    attendance.setIsLate(false);
+                    }
+                    attendance.setLocalTime(LocalTime.now());
+                    attendance.setMonthDay(MonthDay.now());
                     attendanceRepository.save(attendance);
                     responce2 = "Attendance marked successfully";
-                }else{
-                    responce2 = "Employee does not exists";
-                }
             }else{
                 responce2 = "Attendance already marked";
             }
         }
         return responce2;
     }
+
+//    @Override
+//    public Boolean getIsLateById (Employee employee) {
+//        Optional<Attendance> employeeAttendance = attendanceRepository.findByEmployeeAndAttendanceBetween(employee, newStartDateTime, newEndDateTime);
+//        if(employeeAttendance.isEmpty()){
+//            return true;
+//        }
+//        return employeeAttendance.get().getIsLate();
+//    }
 
     @Override
     public List <Attendance> getAttendanceById(Employee employee) {
