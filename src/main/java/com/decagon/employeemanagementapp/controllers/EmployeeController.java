@@ -6,6 +6,7 @@ import com.decagon.employeemanagementapp.model.Attendance;
 import com.decagon.employeemanagementapp.model.Employee;
 import com.decagon.employeemanagementapp.service.AttendanceService;
 import com.decagon.employeemanagementapp.service.EmployeeService;
+import com.decagon.employeemanagementapp.service.SalaryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -26,11 +27,13 @@ public class EmployeeController {
 
     private EmployeeService employeeService;
     private AttendanceService attendanceService;
+    private SalaryService salaryService;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService, AttendanceService attendanceService) {
+    public EmployeeController(EmployeeService employeeService, AttendanceService attendanceService, SalaryService salaryService) {
         this.employeeService = employeeService;
         this.attendanceService = attendanceService;
+        this.salaryService = salaryService;
     }
 
     /**
@@ -83,7 +86,8 @@ public class EmployeeController {
     public String getEmployeeDashboard(HttpSession session, Model model){
         Employee employee = (Employee) session.getAttribute("principal");
         if (employee == null) return "redirect:/";
-        model.addAttribute("employee", employee);
+
+        model.addAttribute("employee", attendanceService.getLatestEmployeeAttendance(employee));
 
 //        model.addAttribute("isLate", a));
 
@@ -147,6 +151,7 @@ public class EmployeeController {
         Employee employee = employeeService.getEmployeeById(id);
         model.addAttribute("employeeDetail", employee);
         model.addAttribute("attendanceList", attendanceService.getAttendanceById(employee));
+        model.addAttribute("salaryList", salaryService.getAllSalaryById(employee));
         return "get-employee-detail";
         //@PathVariable(value = "id") long id
     }
@@ -179,15 +184,12 @@ public class EmployeeController {
     public String updateEmployeeGet(Model model, @PathVariable Long id) {
         Employee employee = employeeService.getEmployeeById(id);
         model.addAttribute("employee", employee);
-        System.out.println("I am here in update");
         return "update-employee";
     }
 
     @PostMapping("/admin/employees/update/{id}")
     public String updateEmployeePost(@ModelAttribute("employee") UpdateEmployeeDto updateEmployeeDto, @PathVariable Long id) {
-//        UpdateEmployeeDto updateEmployeeDto = (UpdateEmployeeDto) model.getAttribute("employee");
         employeeService.updateEmployee(updateEmployeeDto, id);
-        System.out.println("I am here");
         return "redirect:/admin/employees";
     }
 

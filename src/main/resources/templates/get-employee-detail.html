@@ -51,11 +51,15 @@
                     <a th:href="@{/admin/employees}" data-toggle="collapse" data-target="#submenu-1"><i class="fa fa-fw fa-search"></i> View All Employee<i ></i></a>
                 </li>
                 <li>
+
+                <li>
+                    <a th:href="@{/admin/all-employee/attendance/}"><i class="fa fa-fw fa fa-question-circle"></i> Daily Attendance</a>
+                </li>
                 <li>
                     <a th:href="@{/admin/employee/add}" href="investigaciones/favoritas"><i class="fa fa-fw fa-user-plus"></i> Add new Employee</a>
                 </li>
                 <li>
-                    <a th:href="@{/admin/all-employee/attendance/}"><i class="fa fa-fw fa fa-question-circle"></i> Daily Attendance</a>
+                    <a th:href="@{/admin/add-salary/{id}(id=${employeeDetail.id})}" href="investigaciones/favoritas"><i class="fa fa-fw fa-user-plus"></i> Add Salary</a>
                 </li>
             </ul>
         </div>
@@ -169,6 +173,33 @@
                 </tr>
 
 
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="card">
+            <h1></h1>
+            <h1>Employee Attendance History</h1>
+
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <!--                    <th scope="col">ID</th>-->
+                    <!--                    <th scope="col">Created At</th>-->
+                    <th scope="col">Date</th>
+                    <th scope="col">Amount Paid</th>
+                    <!--                        <th scope="col">Edit List </th>-->
+                    <!--                        <th scope="col">list info</th>-->
+                </tr>
+                </thead>
+                <tbody>
+                </tr>
+                <tr th:each="salary: ${salaryList}">
+                    <td th:text="${salary.getCreatedAt()}"> </td>
+                    <td th:text="${salary.getAmount()}"></td>
+
+                </tr>
                 </tbody>
             </table>
         </div>

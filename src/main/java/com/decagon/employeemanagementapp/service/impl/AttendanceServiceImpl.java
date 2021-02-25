@@ -1,5 +1,6 @@
 package com.decagon.employeemanagementapp.service.impl;
 
+import com.decagon.employeemanagementapp.dtos.LatestEmployeeAttendanceDto;
 import com.decagon.employeemanagementapp.model.Attendance;
 import com.decagon.employeemanagementapp.model.Employee;
 import com.decagon.employeemanagementapp.repository.AttendanceRepository;
@@ -81,6 +82,25 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     public List <Attendance> getAttendanceById(Employee employee) {
         return attendanceRepository.findAllAttendanceByEmployee(employee);
+    }
+
+    @Override
+    public LatestEmployeeAttendanceDto getLatestEmployeeAttendance(Employee employee) {
+        Optional<Employee> employeedb = employeeRepository.findById(employee.getId());
+        if (employeedb.isPresent()){
+            List<Attendance> attendanceList = attendanceRepository.findAllAttendanceByEmployee(employeedb.get());
+            if (!attendanceList.isEmpty()){
+                Attendance attendance = attendanceList.get(attendanceList.size() - 1);
+                LatestEmployeeAttendanceDto latestEmployeeAttendanceDto = new LatestEmployeeAttendanceDto();
+                latestEmployeeAttendanceDto.setLate(attendance.getIsLate());
+                latestEmployeeAttendanceDto.setEmail(employeedb.get().getEmail());
+                latestEmployeeAttendanceDto.setFirstName(employeedb.get().getFirstName());
+                latestEmployeeAttendanceDto.setLastName(employeedb.get().getLastName());
+                return latestEmployeeAttendanceDto;
+            }
+            return null;
+        }
+        return null;
     }
 
     @Override
