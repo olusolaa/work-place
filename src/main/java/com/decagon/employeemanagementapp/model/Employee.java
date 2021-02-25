@@ -26,6 +26,8 @@ public class Employee extends BaseModel{
     @Column(name = ("password"))
     private String password;
 
+    private boolean isLate = true;
+
 
     public Employee() {
 

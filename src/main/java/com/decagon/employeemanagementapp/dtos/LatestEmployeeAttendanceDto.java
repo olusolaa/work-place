@@ -12,4 +12,5 @@ public class LatestEmployeeAttendanceDto {
     private String lastName;
     private String email;
     private boolean isLate;
+    private String message;
 }

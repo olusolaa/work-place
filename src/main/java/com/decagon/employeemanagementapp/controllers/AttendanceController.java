@@ -49,7 +49,7 @@ public class AttendanceController {
 
     @GetMapping("/admin/all-employee/attendance/")
     public String getAllEmployeeAttendance(HttpSession session, Model model){
-        var admin = session.getAttribute("admin");
+//        var admin = session.getAttribute("admin");
 //        if (admin == null){
 //            return "redirect:/";
 //        }

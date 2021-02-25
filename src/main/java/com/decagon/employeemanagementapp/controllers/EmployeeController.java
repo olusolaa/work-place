@@ -83,14 +83,16 @@ public class EmployeeController {
     }
 
     @GetMapping (path = "/employee")
-    public String getEmployeeDashboard(HttpSession session, Model model){
+    public String getEmployeeDashboard(HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("principal");
         if (employee == null) return "redirect:/";
-
-        model.addAttribute("employee", attendanceService.getLatestEmployeeAttendance(employee));
-
-//        model.addAttribute("isLate", a));
-
+        LatestEmployeeAttendanceDto latestEmployeeAttendanceDto = attendanceService.getLatestEmployeeAttendance(employee);
+        if (latestEmployeeAttendanceDto !=null){
+            model.addAttribute("employee",latestEmployeeAttendanceDto);
+        }
+        else {
+            model.addAttribute("employee", employee);
+        }
         return "employee";
     }
 
