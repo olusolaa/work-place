@@ -1,0 +1,129 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+    <link rel="stylesheet" th:href="@{/dashboard.css}">
+</head>
+<!------ Include the above in your HEAD tag ---------->
+
+<body>
+<div id="throbber" style="display:none; min-height:120px;"></div>
+<div id="noty-holder"></div>
+<div id="wrapper">
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://bryanrojasq.wordpress.com">
+                <img src="http://placehold.it/200x50&text=LOGO" alt="LOGO">
+            </a>
+        </div>
+        <!-- Top Menu Items -->
+        <ul class="nav navbar-right top-nav">
+            <li><a href="#" data-placement="bottom" data-toggle="tooltip" data-original-title="Stats"><i class="fa fa-bar-chart-o"></i>
+            </a>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin User <b class="fa fa-angle-down"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#"><i class="fa fa-fw fa-user"></i> Edit Profile</a></li>
+                    <li><a href="#"><i class="fa fa-fw fa-cog"></i> Change Password</a></li>
+                    <li class="divider"></li>
+                    <li><a th:href="@{/logout}"><i class="fa fa-fw fa-power-off"></i> Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+        <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav side-nav">
+                <li>
+                    <a th:href="@{/employee}" href="sugerencias"><i class="fa fa-fw fa-paper-plane-o"></i> Employee Dashboard</a>
+                </li>
+                <li>
+<!--                    <a th:href="@{/employee/mark-attendance}" data-toggle="collapse" data-target="#submenu-1"><i class="fa fa-fw fa-search"></i> Mark Attendance<i ></i></a>-->
+                </li>
+                <li>
+                <li>
+                    <a th:href="@{/employee/mark-attendance}" href="investigaciones/favoritas"><i class="fa fa-fw fa-user-plus"></i> Mark Attendance</a>
+                </li>
+                <li>
+                    <a th:href="@{/employee}"><i class="fa fa-fw fa fa-question-circle"></i> Attendance History</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </nav>
+
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <!-- Page Heading -->
+            <div class="row" id="main" >
+                <div class="col-sm-12 col-md-12 well" id="content">
+                    <h1> Welcome To My ProFile</h1>
+                    <span th:text="${marked}" style="color: red"></span>
+                </div>
+            </div>
+            <!-- /.row -->
+
+
+
+            <div class="card">
+
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Is Present</th>
+                        <th></th>
+                        <th></th>
+                        <!--                        <th scope="col">Edit List </th>-->
+                        <!--                        <th scope="col">list info</th>-->
+                    </tr>
+                    </thead>
+                    <tbody>
+
+
+                    </tr>
+                    <tr>
+                        <td th:text="${employee.id}"></td>
+                        <td th:text="${employee.firstName}"> </td>
+                        <td th:text="${employee.lastName}"></td>
+                        <td th:text="${employee.email}"></td>
+<!--                        <td th:text="${employee.getAttendances()[1].isPresent()}"></td>-->
+                        <td scope="col"></td>
+
+                        <td>
+
+                        </td>
+
+                        <td >
+<!--                            <a class="btn btn-sm btn-primary" th:href="@{/update-employee/{id}(id=${employee.id})}"> <i class="far fa-edit"></i> edit</a>-->
+                        </td>
+                    </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- Large modal -->
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /#page-wrapper -->
+</div><!-- /#wrapper -->
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" th:src="@{/dashboard.js}"></script>
+</body>
+</html>

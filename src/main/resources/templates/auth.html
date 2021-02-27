@@ -1,0 +1,60 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" th:href="@{/temp.css}">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+</head>
+
+
+
+
+
+<!------ Include the above in your HEAD tag ---------->
+<body>
+<div class="login-reg-panel">
+    <div class="login-info-box">
+        <h2>Have an account?</h2>
+        <p>Decagon always desires your feedbacks</p>
+        <label id="label-register" for="log-reg-show">Login</label>
+        <input type="radio" name="active-log-panel" id="log-reg-show"  checked="checked">
+    </div>
+
+    <div class="register-info-box">
+        <h2>Activate an account?</h2>
+        <p>Welcome! We at decagon are glad to have you</p>
+        <label id="label-login" for="log-login-show">Activate</label>
+        <input type="radio" name="active-log-panel" id="log-login-show">
+    </div>
+
+    <div class="white-panel" >
+        <div class="login-show">
+            <h2>LOGIN</h2>
+            <p th:text="${error}" style="color: red"></p>
+            <form th:action="@{/login}" method="post" th:object="${loginDto}">
+                <input type="text" th:field = "*{email}" placeholder="Email">
+                <input type="password" th:field = "*{password}" placeholder="Password">
+                <input type="submit" value="Login">
+                <a href="">Forgot password?</a>
+            </form>
+        </div>
+        <div class="register-show">
+            <h2>Activate Account</h2>
+            <form th:action="@{/signUp}" method="post" th:object="${activationDto}">
+                <input type="text" th:field = "*{id}" placeholder=" Staff ID">
+                <input type="text" th:field = "*{email}" placeholder=" Email">
+                <input type="password" th:field = "*{password}" placeholder="Password">
+                <input type="password" th:field = "*{confirmPassword}" placeholder="Confirm Password">
+                <input type="submit" value="Activate" id="register">
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script type="text/javascript" th:src="@{/temp.js}"></script>
+</body>
+
+</html>
