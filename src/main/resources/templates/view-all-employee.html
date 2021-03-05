@@ -48,7 +48,7 @@
                     <a th:href="@{/admin}" href="sugerencias"><i class="fa fa-fw fa-paper-plane-o"></i> Admin Dashboard</a>
                 </li>
                 <li>
-                    <a th:href="@{/admin/employees}" data-toggle="collapse" data-target="#submenu-1"><i class="fa fa-fw fa-search"></i> View All Employee<i ></i></a>
+                    <a th:href="@{/admin/employees/1}" data-toggle="collapse" data-target="#submenu-1"><i class="fa fa-fw fa-search"></i> View All Employees<i ></i></a>
                 </li>
                 <li>
                 <li>
@@ -73,9 +73,18 @@
             <!-- /.row -->
 
 
+            <form th:action="@{/employee/search}" method="get">
+                <p th:text="${message}" style="color: red"></p>
+                <div>
+                    <input class="form-control ml-5 mr-sm-2 mb-3" type="search" name="firstname" th:value="${firstname}" placeholder="First name" />
+                </div>
+                <div>
+                    <input class="form-control ml-5 mr-sm-2 mb-3" type="search" name="lastname" th:value="${lastname}" placeholder="Last name" />
+                </div>
+                <button class="btn btn-success mb-3" type="submit">Search</button>
+            </form>
 
             <div class="card">
-
                 <table class="table table-hover">
                     <thead>
                     <tr>
@@ -129,6 +138,15 @@
         </div>
         <!-- /.container-fluid -->
     </div>
+    Total Items: [[${totalItems}]]
+    <a th:if="${currentPage > 1}" th:href="@{/'/page/1'}">First</a>
+    <span th:unless="${currentPage > 1}">First</span>
+
+    <a th:if="${currentPage > 1}" th:href="@{/'/page/' + ${currentPage - 1}}">Previous</a>
+    <span th:unless="${currentPage > 1}">Previous</span>
+
+    <a th:if="${currentPage < totalPages}" th:href="@{/admin/employees/{nextPage}(nextPage=${currentPage + 1})}">Next</a>
+    <span th:unless="${currentPage < totalPages}">Next</span>
     <!-- /#page-wrapper -->
 </div><!-- /#wrapper -->
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>

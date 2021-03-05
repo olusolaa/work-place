@@ -6,16 +6,23 @@ import com.decagon.employeemanagementapp.exception.ResourceNotFoundException;
 import com.decagon.employeemanagementapp.model.Employee;
 import com.decagon.employeemanagementapp.repository.EmployeeRepository;
 import com.decagon.employeemanagementapp.service.EmployeeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class EmployeeServiceImpl implements EmployeeService {
-
 
     EmployeeRepository employeeRepository;
 
@@ -125,15 +132,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     @Override
-    public List<Employee> getAllEmployees() {
-
-            List<Employee> result = employeeRepository.findAll();
-            result.remove(0);
-            if(result.size() > 0) {
-                return result;
-            } else {
-                return new ArrayList<>();
-            }
+    public Page<Employee> getAllEmployees(int pageNum) {
+        int pageSize = 5;
+        Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
+            Page<Employee> result = employeeRepository.findAll(pageable);
+            return result;
+//            result.remove(0);
+//            if(result.size() > 0) {
+//                return result;
+//            } else {
+//                return new ArrayList<>();
+//            }
         //you can use pagination here
     }
 
@@ -152,9 +161,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         try {
             Optional<Employee> employeeDb = this.employeeRepository.findById(id);
             if (employeeDb.isPresent()) {
-                System.out.println("I was here");
                 employeeDb.get().setFirstName(updateEmployeeDto.getFirstName());
-                System.out.println(updateEmployeeDto.getFirstName());
                 employeeDb.get().setLastName(updateEmployeeDto.getLastName());
                 employeeDb.get().setEmail(updateEmployeeDto.getEmail());
                 employeeRepository.save(employeeDb.get());
@@ -211,6 +218,37 @@ public class EmployeeServiceImpl implements EmployeeService {
         return "deleted";
     }
 
-//    I have issues displaying errors
+    @Override
+    public SearchDto search(String firstname, String lastname){
+        log.info(firstname+", "+lastname);
+        var searchDto = new SearchDto();
+        if (!firstname.isBlank() || firstname != null){
+            if (!lastname.isBlank() || lastname != null){
+                List<Employee> employees = employeeRepository.findAllByFirstNameContainsAndLastNameContains(firstname, lastname);
+                searchDto.setEmployees(employees);
+                if (employees.isEmpty()) searchDto.setMessage("No result found");
+                else searchDto.setMessage(employees.size() + "employees found");
+            }else{
+                List<Employee> employees = employeeRepository.findAllByFirstNameContains(firstname);
+                searchDto.setEmployees(employees);
+                if (employees.isEmpty()) searchDto.setMessage("No result found");
+                else searchDto.setMessage(employees.size() + "employees found");
+            }
+        }else{
+            if (!lastname.isBlank() || lastname != null){
+                List<Employee> employees = employeeRepository.findAllByLastNameContains(lastname);
+                searchDto.setEmployees(employees);
+                if (employees.isEmpty()) searchDto.setMessage("No result found");
+                else searchDto.setMessage(employees.size() + "employees found");
+            }else{
+                List<Employee> employees = employeeRepository.findAll();
+                searchDto.setEmployees(employees);
+                if (employees.isEmpty()) searchDto.setMessage("No result found");
+                else searchDto.setMessage(employees.size() + "employees found");
+            }
+        }
+        log.info(String.valueOf(searchDto.getEmployees().size()));
+        return searchDto;
+    }
 
 }

@@ -4,11 +4,15 @@ package com.decagon.employeemanagementapp.controllers;
 import com.decagon.employeemanagementapp.dtos.*;
 import com.decagon.employeemanagementapp.model.Attendance;
 import com.decagon.employeemanagementapp.model.Employee;
+import com.decagon.employeemanagementapp.repository.EmployeeRepository;
 import com.decagon.employeemanagementapp.service.AttendanceService;
 import com.decagon.employeemanagementapp.service.EmployeeService;
 import com.decagon.employeemanagementapp.service.SalaryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -118,11 +122,16 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping(path = "/admin/employees")
-    public String getAllEmployees(Model model, HttpSession session) {
+    @RequestMapping("/admin/employees/{pageNum}")
+    public String getAllEmployees(Model model, HttpSession session, @PathVariable(name = "pageNum") int pageNum) {
         var admin = session.getAttribute("principal");
         if (admin == null)return "redirect:/";
-        model.addAttribute("employees", employeeService.getAllEmployees());
+        var page = employeeService.getAllEmployees(pageNum);
+        var employeeList = page.getContent();
+        model.addAttribute("currentPage", pageNum);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("employees", employeeList);
         return "view-all-employee";
     }
 
@@ -194,6 +203,15 @@ public class EmployeeController {
         employeeService.updateEmployee(updateEmployeeDto, id);
         return "redirect:/admin/employees";
     }
+
+    @GetMapping("/employee/search")
+    public String search(@RequestParam(value = "firstname", required = false) String firstname, @RequestParam(value = "lastname", required = false) String lastname, Model model){
+        SearchDto searchResult = employeeService.search(firstname, lastname);
+        model.addAttribute("employees", searchResult.getEmployees());
+        model.addAttribute("message", searchResult.getMessage());
+        return "view-all-employee";
+    }
+
 
 }
 
