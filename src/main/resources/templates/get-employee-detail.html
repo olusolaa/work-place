@@ -28,12 +28,6 @@
         </li>
         <li class="dropdown">
             <a th:href="@{/logout}"><i class="fa fa-fw fa-power-off"></i> Logout</a>
-            <!--                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin User <b class="fa fa-angle-down"></b></a>-->
-            <!--                <ul class="dropdown-menu">-->
-            <!--                    <li><a href="#"><i class="fa fa-fw fa-user"></i> Edit Profile</a></li>-->
-            <!--                    <li><a href="#"><i class="fa fa-fw fa-cog"></i> Change Password</a></li>-->
-            <!--                    <li class="divider"></li>-->
-            <!--                    <li><a th:href="@{/logout}"><i class="fa fa-fw fa-power-off"></i> Logout</a></li>-->
         </li>
     </ul>
         <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
@@ -90,8 +84,7 @@
 
                                     <th></th>
                                     <th></th>
-            <!--                        <th scope="col">Edit List </th>-->
-            <!--                        <th scope="col">list info</th>-->
+
                                 </tr>
                                 </thead>
              <tbody>
@@ -110,7 +103,6 @@
                 <td scope="col"></td>
                 <td scope="col"></td>
                 <td th:text="${employeeDetail.email}" class ="name"> </td>
-<!--                <td th:text="${employeeDetail.attendances}" class ="name"> </td>-->
 
                 <td>
 
@@ -161,9 +153,6 @@
                     </td>
 
                     <td >
-                        <!--                    <a class="btn btn-sm btn-primary" th:href="@{/admin/update-get(id=${employeeDetail.id})}"> <i class="far fa-edit"></i> edit</a>-->
-                        <!--                    <a class="btn btn-sm btn-danger" th:href="@{/admin/delete-employee/{id}(id=${employeeDetail.id})}"> <i class="fas fa-trash-alt"></i> delete</a>-->
-                        <!--                    <a class="btn btn-sm btn-info" th:href="@{/admin/get-employee-detail/{id}(id=${employeeDetail.id})}"> <i class="fas fa-info-circle"></i> Details</a>-->
                     </td>
                 </tr>
 

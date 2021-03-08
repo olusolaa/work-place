@@ -30,12 +30,7 @@
             </li>
             <li class="dropdown">
                 <a th:href="@{/logout}"><i class="fa fa-fw fa-power-off"></i> Logout</a>
-                <!--                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin User <b class="fa fa-angle-down"></b></a>-->
-                <!--                <ul class="dropdown-menu">-->
-                <!--                    <li><a href="#"><i class="fa fa-fw fa-user"></i> Edit Profile</a></li>-->
-                <!--                    <li><a href="#"><i class="fa fa-fw fa-cog"></i> Change Password</a></li>-->
-                <!--                    <li class="divider"></li>-->
-                <!--                    <li><a th:href="@{/logout}"><i class="fa fa-fw fa-power-off"></i> Logout</a></li>-->
+
             </li>
         </ul>
         <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
@@ -45,7 +40,7 @@
                     <a th:href="@{/employee}" href="sugerencias"><i class="fa fa-fw fa-paper-plane-o"></i> Employee Dashboard</a>
                 </li>
                 <li>
-                    <!--                    <a th:href="@{/employee/mark-attendance}" data-toggle="collapse" data-target="#submenu-1"><i class="fa fa-fw fa-search"></i> Mark Attendance<i ></i></a>-->
+
                 </li>
                 <li>
                 <li>
@@ -77,13 +72,11 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <!--                    <th scope="col">ID</th>-->
-                    <!--                    <th scope="col">Created At</th>-->
+
                     <th scope="col">Date</th>
                     <th scope="col">Time Signed In</th>
                     <th scope="col">Is Late</th>
-                    <!--                        <th scope="col">Edit List </th>-->
-                    <!--                        <th scope="col">list info</th>-->
+
                 </tr>
                 </thead>
                 <tbody>
@@ -91,8 +84,7 @@
 
                 </tr>
                 <tr th:each="attendance: ${attendanceList}">
-                    <!--                    <td th:text="${attendance.id}"></td>-->
-                    <!--                    <td th:text="${attendance.getUpdatedAt()}"> </td>-->
+
                     <td th:text="${attendance.monthDay}"> </td>
                     <td th:text="${attendance.getLocalTime()}"></td>
                     <td th:text="${attendance.isLate}" class ="name"> </td>
@@ -102,9 +94,6 @@
                     </td>
 
                     <td >
-                        <!--                    <a class="btn btn-sm btn-primary" th:href="@{/admin/update-get(id=${employeeDetail.id})}"> <i class="far fa-edit"></i> edit</a>-->
-                        <!--                    <a class="btn btn-sm btn-danger" th:href="@{/admin/delete-employee/{id}(id=${employeeDetail.id})}"> <i class="fas fa-trash-alt"></i> delete</a>-->
-                        <!--                    <a class="btn btn-sm btn-info" th:href="@{/admin/get-employee-detail/{id}(id=${employeeDetail.id})}"> <i class="fas fa-info-circle"></i> Details</a>-->
                     </td>
                 </tr>
 
