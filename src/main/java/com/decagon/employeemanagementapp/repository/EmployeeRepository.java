@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-    Optional<List<Employee>> findAllByFirstNameContainsOrLastNameContainsOrderByFirstName(String lastName, String firstName);
+    Page<Employee> findAllByFirstNameContainsOrLastNameContainsOrderByFirstName(String firstName, String LastName, Pageable pageable);
     Optional<Employee> findByEmail(String email);
     Optional<Employee> findByEmailAndPassword(String email, String password);
     Page<Employee> findAll(Pageable pageable);

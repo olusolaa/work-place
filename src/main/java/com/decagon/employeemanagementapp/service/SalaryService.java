@@ -14,5 +14,4 @@ public interface SalaryService {
     String addSalary(Long id, Salary salary);
     List<Salary> getAllSalary();
     List<Salary> getAllSalaryById(Employee employee);
-//    Salary getCurrentSalaryById(Employee employee, LocalDateTime localDateTime);
 }

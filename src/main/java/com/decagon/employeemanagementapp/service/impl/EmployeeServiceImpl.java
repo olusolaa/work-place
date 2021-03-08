@@ -133,7 +133,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Page<Employee> getAllEmployees(int pageNum) {
-        int pageSize = 5;
+        int pageSize = 4;
         Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
             Page<Employee> result = employeeRepository.findAll(pageable);
             return result;
@@ -198,9 +198,9 @@ public class EmployeeServiceImpl implements EmployeeService {
                 response.setData(addedEmployee);
                 return  response;
             }else{
-                throw new Exception("Something went wrong");
+                throw new ResourceNotFoundException("Something went wrong");
             }
-        }catch (Exception e) {
+        }catch (ResourceNotFoundException e) {
             response.setStatus(500);
             response.setSuccessful(false);
             response.setData(null);
@@ -211,43 +211,27 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     public String deleteEmployee(Long id) throws ResourceNotFoundException {
         Optional<Employee> employeeDb = this.employeeRepository.findById(id);
-        if (employeeDb.isEmpty()) {
-            throw new ResourceNotFoundException("No employee record exist for id "+ id);
+        log.info("user id: " + id);
+        if (id != 1) {
+            employeeRepository.deleteById(id);
+            return "deleted";
         }
-        employeeRepository.deleteById(id);
-        return "deleted";
+        return "Access denied! Admin cannot be deleted";
     }
 
     @Override
-    public SearchDto search(String firstname, String lastname){
-        log.info(firstname+", "+lastname);
+    public SearchDto search(String name, int pageNum){
+        int pageSize = 4;
+        Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
         var searchDto = new SearchDto();
-        if (!firstname.isBlank() || firstname != null){
-            if (!lastname.isBlank() || lastname != null){
-                List<Employee> employees = employeeRepository.findAllByFirstNameContainsAndLastNameContains(firstname, lastname);
-                searchDto.setEmployees(employees);
-                if (employees.isEmpty()) searchDto.setMessage("No result found");
-                else searchDto.setMessage(employees.size() + "employees found");
-            }else{
-                List<Employee> employees = employeeRepository.findAllByFirstNameContains(firstname);
-                searchDto.setEmployees(employees);
-                if (employees.isEmpty()) searchDto.setMessage("No result found");
-                else searchDto.setMessage(employees.size() + "employees found");
-            }
-        }else{
-            if (!lastname.isBlank() || lastname != null){
-                List<Employee> employees = employeeRepository.findAllByLastNameContains(lastname);
-                searchDto.setEmployees(employees);
-                if (employees.isEmpty()) searchDto.setMessage("No result found");
-                else searchDto.setMessage(employees.size() + "employees found");
-            }else{
-                List<Employee> employees = employeeRepository.findAll();
-                searchDto.setEmployees(employees);
-                if (employees.isEmpty()) searchDto.setMessage("No result found");
-                else searchDto.setMessage(employees.size() + "employees found");
-            }
+        var page = employeeRepository.findAllByFirstNameContainsOrLastNameContainsOrderByFirstName(name, name, pageable);
+        if (page.getContent().isEmpty()){
+            searchDto.setPage(page);
+            searchDto.setMessage("No result found");
+            return searchDto;
         }
-        log.info(String.valueOf(searchDto.getEmployees().size()));
+        searchDto.setPage(page);
+        searchDto.setMessage(page.getTotalElements() + " result found");
         return searchDto;
     }
 

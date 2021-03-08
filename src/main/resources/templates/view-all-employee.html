@@ -22,9 +22,6 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="https://bryanrojasq.wordpress.com">
-                <img src="http://placehold.it/200x50&text=LOGO" alt="LOGO">
-            </a>
         </div>
         <!-- Top Menu Items -->
         <ul class="nav navbar-right top-nav">
@@ -32,13 +29,13 @@
             </a>
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin User <b class="fa fa-angle-down"></b></a>
-                <ul class="dropdown-menu">
-                    <li><a href="#"><i class="fa fa-fw fa-user"></i> Edit Profile</a></li>
-                    <li><a href="#"><i class="fa fa-fw fa-cog"></i> Change Password</a></li>
-                    <li class="divider"></li>
-                    <li><a th:href="@{/logout}"><i class="fa fa-fw fa-power-off"></i> Logout</a></li>
-                </ul>
+                <a th:href="@{/logout}"><i class="fa fa-fw fa-power-off"></i> Logout</a>
+                <!--                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin User <b class="fa fa-angle-down"></b></a>-->
+                <!--                <ul class="dropdown-menu">-->
+                <!--                    <li><a href="#"><i class="fa fa-fw fa-user"></i> Edit Profile</a></li>-->
+                <!--                    <li><a href="#"><i class="fa fa-fw fa-cog"></i> Change Password</a></li>-->
+                <!--                    <li class="divider"></li>-->
+                <!--                    <li><a th:href="@{/logout}"><i class="fa fa-fw fa-power-off"></i> Logout</a></li>-->
             </li>
         </ul>
         <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
@@ -72,19 +69,20 @@
             </div>
             <!-- /.row -->
 
-
-            <form th:action="@{/employee/search}" method="get">
-                <p th:text="${message}" style="color: red"></p>
+            <p th:text="${deleteMessage}" style="color: red"></p>
+            <form th:action="@{/employee/search/{pageNum}(pageNum=${currentPage})}" method="get">
+                <p th:text="${message}" style="color: #ff0000"></p>
                 <div>
-                    <input class="form-control ml-5 mr-sm-2 mb-3" type="search" name="firstname" th:value="${firstname}" placeholder="First name" />
+                    <input class="form-control ml-5 mr-sm-2 mb-3" type="search" name="str" th:value="${str}" placeholder="Last name" />
                 </div>
-                <div>
-                    <input class="form-control ml-5 mr-sm-2 mb-3" type="search" name="lastname" th:value="${lastname}" placeholder="Last name" />
-                </div>
-                <button class="btn btn-success mb-3" type="submit">Search</button>
-            </form>
+                <button class="btn btn-sm btn-primary" type="submit">Search</button>
 
-            <div class="card">
+
+<!--            <input class="form-control  ml-5 mr-sm-2 mb-3" type="search" name="str" placeholder="Search by name" />-->
+<!--            <button class="btn btn-success mb-3" type="submit">Search</button>-->
+
+<!--                th:if="${not #lists.isEmpty(str)}"-->
+                <div  class="card">
                 <table class="table table-hover">
                     <thead>
                     <tr>
@@ -124,9 +122,9 @@
                         </td>
 
                         <td >
-                            <a class="btn btn-sm btn-primary" th:href="@{/update-employee/{id}(id=${employee.id})}"> <i class="far fa-edit"></i> edit</a>
-                            <a class="btn btn-sm btn-danger" th:href="@{/admin/delete-employee/{id}(id=${employee.id})}"> <i class="fas fa-trash-alt"></i> delete</a>
-                            <a class="btn btn-sm btn-info" th:href="@{/admin/get-employee-detail/{id}(id=${employee.id})}"> <i class="fas fa-info-circle"></i> Details</a>
+                            <a class="btn btn-sm btn-primary" th:href="@{/update-employee/{id}(id=${employee.id})}"></i> edit</a>
+                            <a class="btn btn-sm btn-danger" th:href="@{/admin/delete-employee/{id}(id=${employee.id})}">  delete</a>
+                            <a class="btn btn-sm btn-info" th:href="@{/admin/get-employee-detail/{id}(id=${employee.id})}"> details</a>
                         </td>
                     </tr>
 
@@ -134,19 +132,21 @@
                     </tbody>
                 </table>
             </div>
+            </form>
             <!-- Large modal -->
         </div>
         <!-- /.container-fluid -->
     </div>
-    Total Items: [[${totalItems}]]
-    <a th:if="${currentPage > 1}" th:href="@{/'/page/1'}">First</a>
-    <span th:unless="${currentPage > 1}">First</span>
 
-    <a th:if="${currentPage > 1}" th:href="@{/'/page/' + ${currentPage - 1}}">Previous</a>
-    <span th:unless="${currentPage > 1}">Previous</span>
-
-    <a th:if="${currentPage < totalPages}" th:href="@{/admin/employees/{nextPage}(nextPage=${currentPage + 1})}">Next</a>
-    <span th:unless="${currentPage < totalPages}">Next</span>
+    <div class="container" style="align-items: center">
+        Total Items: [[${totalItems}]]
+        <a class="btn btn-sm btn-primary" th:if="${currentPage > 1}" th:href="@{/admin/employees/1}">First</a>
+        <span class="btn btn-sm btn-primary" th:unless="${currentPage > 1}">First</span>
+        <a class="btn btn-sm btn-primary" th:if="${currentPage > 1}" th:href="@{/admin/employees/{prevPage}(prevPage=${currentPage - 1})}"></i>Previous</a>
+        <span class="btn btn-sm btn-primary" th:unless="${currentPage > 1}">Previous</span>
+        <a class="btn btn-sm btn-primary" th:if="${currentPage < totalPages}" th:href="@{/admin/employees/{nextPage}(nextPage=${currentPage + 1})}"></i>Next</a>
+        <span class="btn btn-sm btn-primary" th:unless="${currentPage < totalPages}">Next</span>
+    </div>
     <!-- /#page-wrapper -->
 </div><!-- /#wrapper -->
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>

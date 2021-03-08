@@ -56,24 +56,12 @@ public class EmployeeController {
         return "auth";
     }
 
-//    @GetMapping("/home")
-//    public String home(HttpSession session) {
-//        var admin = session.getAttribute("principal");
-//        if (admin == null) return "redirect:/";
-//        return "home";
-//    }
-
     @PostMapping(path = "/login")
     public String loginPost(Model model, LoginDto loginDto, HttpSession session) {
-        log.info("in login post!");
-
         ResponseDto response = employeeService.logIn(loginDto);
-        // you want to return the employee from employeeService.login
-        // logout: session.invalidate();password
         System.out.println(response.isSuccessful());
         if (response.isSuccessful()) {
             session.setAttribute("principal", response.getEmployee());
-            //Employee employee1 = (Employee) session.getAttribute("principal");
             if (response.getRole().equals("Admin")) {
                 model.addAttribute("addEmployee", new EmployeeDto());
                 return "redirect:/admin";
@@ -100,7 +88,7 @@ public class EmployeeController {
         return "employee";
     }
 
-    @RequestMapping(path = "/admin")
+    @GetMapping(path = "/admin")
         public String redirectAdmin(HttpSession session) {
         var admin = session.getAttribute("principal");
         if (admin == null)return "redirect:/";
@@ -122,16 +110,27 @@ public class EmployeeController {
         }
     }
 
-    @RequestMapping("/admin/employees/{pageNum}")
+    @GetMapping("/admin/employees/{pageNum}")
     public String getAllEmployees(Model model, HttpSession session, @PathVariable(name = "pageNum") int pageNum) {
         var admin = session.getAttribute("principal");
         if (admin == null)return "redirect:/";
         var page = employeeService.getAllEmployees(pageNum);
-        var employeeList = page.getContent();
         model.addAttribute("currentPage", pageNum);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
-        model.addAttribute("employees", employeeList);
+        model.addAttribute("employees", page.getContent());
+        return "view-all-employee";
+    }
+
+    @GetMapping("/employee/search/{pageNum}")
+    public String search(@RequestParam(value = "str", required = false) String str, Model model, @PathVariable(name = "pageNum") int pageNum){
+        var searchResult = employeeService.search(str, pageNum);
+        var page = searchResult.getPage();
+        model.addAttribute("currentPage", pageNum);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("employees", page.getContent());
+        model.addAttribute("message", searchResult.getMessage());
         return "view-all-employee";
     }
 
@@ -146,9 +145,9 @@ public class EmployeeController {
     @PostMapping(value = "/add-employee" )
     public String addEmployeePost(@Valid @ModelAttribute("addEmployee") EmployeeDto employeeDto, RedirectAttributes redirectAttributes) {
         ResponseDto response = employeeService.addEmployee(employeeDto);
-        employeeService.addEmployee(employeeDto);
         if (response.isSuccessful()) {
-            return "redirect:/admin/employees";
+            return "redirect:/admin/employees/1";
+//            return "redirect:/";
         }
         redirectAttributes.addFlashAttribute("error", response.getError());
         return "redirect:/admin/employee/add";
@@ -167,19 +166,13 @@ public class EmployeeController {
         //@PathVariable(value = "id") long id
     }
 
-//    @GetMapping(path = "/admin/view-employee-detail/{id}")
-//    public String viewEmployeebyId(Model model){
-//        model.getAttribute("employeeDetail");
-//
-//    }
-
-
     @GetMapping(value = "/admin/delete-employee/{id}")
-    public String deleteEmployee(@PathVariable Long id, HttpSession session) {
+    public String deleteEmployee(@PathVariable Long id, HttpSession session, RedirectAttributes redirectAttributes) {
         var admin = session.getAttribute("principal");
         if (admin == null)return "redirect:/";
-        employeeService.deleteEmployee(id);
-        return "redirect:/admin/employees";
+        var message = employeeService.deleteEmployee(id);
+        redirectAttributes.addFlashAttribute("deleteMessage", message);
+        return "redirect:/admin/employees/1";
     }
 
     @GetMapping(value = "/logout")
@@ -201,17 +194,8 @@ public class EmployeeController {
     @PostMapping("/admin/employees/update/{id}")
     public String updateEmployeePost(@ModelAttribute("employee") UpdateEmployeeDto updateEmployeeDto, @PathVariable Long id) {
         employeeService.updateEmployee(updateEmployeeDto, id);
-        return "redirect:/admin/employees";
+        return "redirect:/admin/employees/{pageNum}";
     }
-
-    @GetMapping("/employee/search")
-    public String search(@RequestParam(value = "firstname", required = false) String firstname, @RequestParam(value = "lastname", required = false) String lastname, Model model){
-        SearchDto searchResult = employeeService.search(firstname, lastname);
-        model.addAttribute("employees", searchResult.getEmployees());
-        model.addAttribute("message", searchResult.getMessage());
-        return "view-all-employee";
-    }
-
 
 }
 
