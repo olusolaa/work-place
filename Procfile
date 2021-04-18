@@ -1,0 +1,1 @@
+web: java -jar target/java-employee-management-app-0.0.1-SNAPSHOT.jar
