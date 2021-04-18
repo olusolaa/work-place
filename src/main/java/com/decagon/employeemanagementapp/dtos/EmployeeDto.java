@@ -19,4 +19,12 @@ public class EmployeeDto {
 
     private Long id;
 
+    public EmployeeDto(@NotBlank String firstName, @NotBlank String lastName, @NotBlank String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
+    public EmployeeDto() {
+    }
 }
