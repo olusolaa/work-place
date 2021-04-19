@@ -1,1 +1,0 @@
-web: java $JAVA_OPTS -jar target/employee-management-app-0.0.1-SNAPSHOT.jar -Dserver.port=$PORT
