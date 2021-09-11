@@ -1,5 +1,5 @@
 # work-place
-This app help a an organisation can keep track of their employees record.
+This app help an organisation can keep track of their employees record.
 ## Admin can:
 - Add, view, update and delete an employee's record
 - Track late comers and absentees.
