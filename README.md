@@ -23,5 +23,5 @@ This app help an organisation can keep track of their worker's record.
 
 
 ## Add salary:
-- Add salary button becomes activated when on clicking view "details" for a perticular employee
+- Add salary button becomes activated on clicking view "details" for a perticular employee
 
