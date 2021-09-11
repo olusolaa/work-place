@@ -64,7 +64,7 @@ class EmployeeControllerTest {
         admin.setEmail("admin@xmail.com");
 
         Map<String, Object> sessionAttribute = new HashMap<>();
-        sessionAttribute.put("admin", admin);
+        sessionAttribute.put("principal", admin);
 
         mockMvc.perform(get("/admin/employee/add")
                 .sessionAttrs(sessionAttribute).param("email", admin.getEmail()))
@@ -72,36 +72,6 @@ class EmployeeControllerTest {
                 .andExpect(model().attributeExists("addEmployee"))
                 .andExpect(view().name("add-employee"))
                 .andExpect(status().isOk());
-    }
-
-    @Test
-    void addEmployeeController() throws Exception {
-        EmployeeDto employeeDto = new EmployeeDto();
-        employeeDto.setFirstName("David");
-        employeeDto.setLastName("Monday");
-        employeeDto.setEmail("monday1@gmail.com");
-
-//        ResponseDto responseDto = employeeRepository.save(employee)
-
-
-        //verify(employeeRepository, times(2)).save(employeeFromDto);
-
-//        when(employeeService.addEmployee(ArgumentMatchers.<EmployeeDto>any())).thenReturn(responseDto);
-
-        mockMvc.perform(post("/add-employee")
-                .param("firstName", employeeDto.getFirstName())
-                .param("lastName", employeeDto.getLastName())
-                .param("email", employeeDto.getEmail()))
-                .andExpect(status().is3xxRedirection());
-
-
-
-        //ResponseDto responseDto =  employeeService.addEmployee(employeeDto);
-
-        //when(employeeService.addEmployee(ArgumentMatchers.<EmployeeDto>any())).thenReturn(responseDto);
-
-        //assertEquals(responseDto.isSuccessful());
-
     }
 
 }

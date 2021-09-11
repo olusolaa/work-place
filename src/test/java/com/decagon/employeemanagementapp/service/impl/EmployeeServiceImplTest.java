@@ -52,26 +52,6 @@ class EmployeeServiceImplTest {
         employee.setId(2l);
         employee.setPassword("monday");
     }
-    @Test
-    void logIn() {
-
-    }
-
-    @Test
-    void activateAccount() {
-    }
-
-    @Test
-    void getAllEmployees() {
-    }
-
-    @Test
-    void getEmployeeById() {
-    }
-
-    @Test
-    void updateEmployee() {
-    }
 
     @Test
     void addEmployee() {
@@ -109,7 +89,4 @@ class EmployeeServiceImplTest {
         assertEquals(adminReturnValue, employeeService.deleteEmployee(1L));
     }
 
-    @Test
-    void search() {
-    }
 }

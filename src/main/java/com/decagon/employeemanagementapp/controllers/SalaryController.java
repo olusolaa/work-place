@@ -35,16 +35,13 @@ public class SalaryController {
 
     @PostMapping(path = "/admin/salaries/add/{id}")
     public String addSalaryPost(@ModelAttribute("salary") Salary salary, @PathVariable Long id, Model model){
-        System.out.println("aBOUT TO ADD SALARY");
         salaryService.addSalary(id, salary);
-        System.out.println(" I am At the point of redirecting");
-        return "redirect:/admin/employees";
+        return "redirect:/admin/employees/1";
     }
 
     @GetMapping(path = "/admin/salary/view-all")
     public String getAllSalaries(Model model){
         model.addAttribute("salary", salaryService.getAllSalary());
-        System.out.println("i GOT HERE");
         return "view-all-salaries";
     }
 }

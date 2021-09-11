@@ -50,10 +50,10 @@ public class AttendanceController {
 
     @GetMapping("/admin/all-employee/attendance/")
     public String getAllEmployeeAttendance(HttpSession session, Model model){
-//        var admin = session.getAttribute("admin");
-//        if (admin == null){
-//            return "redirect:/";
-//        }
+        var admin = session.getAttribute("principal");
+        if (admin == null){
+            return "redirect:/";
+        }
         List<Attendance> attendanceList = attendanceService.getAllEmployeeAttendance();
         List<Employee> employeesList = attendanceList.stream().map(Attendance::getEmployee).collect(Collectors.toList());
 

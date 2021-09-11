@@ -71,15 +71,6 @@ public class AttendanceServiceImpl implements AttendanceService {
         return responce2;
     }
 
-//    @Override
-//    public Boolean getIsLateById (Employee employee) {
-//        Optional<Attendance> employeeAttendance = attendanceRepository.findByEmployeeAndAttendanceBetween(employee, newStartDateTime, newEndDateTime);
-//        if(employeeAttendance.isEmpty()){
-//            return true;
-//        }
-//        return employeeAttendance.get().getIsLate();
-//    }
-
     @Override
     public List <Attendance> getAttendanceById(Employee employee) {
         return attendanceRepository.findAllAttendanceByEmployee(employee);
@@ -87,7 +78,6 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     public LatestEmployeeAttendanceDto getLatestEmployeeAttendance(Employee employee) {
-//        try {
             Optional<Employee> employeedb = employeeRepository.findById(employee.getId());
 
             if (employeedb.isPresent()) {
@@ -104,12 +94,6 @@ public class AttendanceServiceImpl implements AttendanceService {
                 return null;
             }
             return  null;
-//                throw new ResourceNotFoundException("Mark your daily attendance");
-//            }
-//            throw new ResourceNotFoundException("Employee does not exists");
-//        } catch (ResourceNotFoundException e) {
-//            throw new ResourceNotFoundException(e.getMessage());
-//        }
     }
 
     @Override

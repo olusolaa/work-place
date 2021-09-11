@@ -50,9 +50,4 @@ public class SalaryServiceImpl implements SalaryService {
     public List<Salary> getAllSalaryById(Employee employee) {
         return salaryRepository.findByEmployee(employee);
     }
-
-//    @Override
-//    public Salary getCurrentSalaryById(Employee employee, LocalDateTime localDateTime) {
-//        return salaryRepository.findSalariesByEmployeeAndCreatedAt(employee, localDateTime)
-//    }
 }

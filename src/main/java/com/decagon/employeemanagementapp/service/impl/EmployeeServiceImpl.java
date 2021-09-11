@@ -137,13 +137,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
             Page<Employee> result = employeeRepository.findAll(pageable);
             return result;
-//            result.remove(0);
-//            if(result.size() > 0) {
-//                return result;
-//            } else {
-//                return new ArrayList<>();
-//            }
-        //you can use pagination here
     }
 
     public Employee getEmployeeById(Long id) throws ResourceNotFoundException
@@ -224,7 +217,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         int pageSize = 4;
         Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
         var searchDto = new SearchDto();
-        var page = employeeRepository.findAllByFirstNameContainsOrLastNameContainsOrderByFirstName(name, name, pageable);
+        var page = employeeRepository.findAllByFirstNameIgnoreCaseContainsOrLastNameIgnoreCaseContainsOrderByFirstName(name, name, pageable);
         if (page.getContent().isEmpty()){
             searchDto.setPage(page);
             searchDto.setMessage("No result found");

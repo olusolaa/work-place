@@ -59,7 +59,6 @@ public class EmployeeController {
     @PostMapping(path = "/login")
     public String loginPost(Model model, LoginDto loginDto, HttpSession session) {
         ResponseDto response = employeeService.logIn(loginDto);
-        System.out.println(response.isSuccessful());
         if (response.isSuccessful()) {
             session.setAttribute("principal", response.getEmployee());
             if (response.getRole().equals("Admin")) {
@@ -147,7 +146,6 @@ public class EmployeeController {
         ResponseDto response = employeeService.addEmployee(employeeDto);
         if (response.isSuccessful()) {
             return "redirect:/admin/employees/1";
-//            return "redirect:/";
         }
         redirectAttributes.addFlashAttribute("error", response.getError());
         return "redirect:/admin/employee/add";
@@ -163,7 +161,6 @@ public class EmployeeController {
         model.addAttribute("attendanceList", attendanceService.getAttendanceById(employee));
         model.addAttribute("salaryList", salaryService.getAllSalaryById(employee));
         return "get-employee-detail";
-        //@PathVariable(value = "id") long id
     }
 
     @GetMapping(value = "/admin/delete-employee/{id}")
@@ -194,7 +191,7 @@ public class EmployeeController {
     @PostMapping("/admin/employees/update/{id}")
     public String updateEmployeePost(@ModelAttribute("employee") UpdateEmployeeDto updateEmployeeDto, @PathVariable Long id) {
         employeeService.updateEmployee(updateEmployeeDto, id);
-        return "redirect:/admin/employees/{pageNum}";
+        return "redirect:/admin/employees/1";
     }
 
 }

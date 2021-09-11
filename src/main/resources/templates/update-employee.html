@@ -1,38 +1,31 @@
-
-
-
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <!--    <link rel="stylesheet" th:href="@{/temp.css}">-->
-    <link rel="stylesheet" th:href="@{/dashboard.css}">
 
+    <link rel="stylesheet" th:href="@{/dashboard.css}">
 </head>
-<!------ Include the above in your HEAD tag ---------->
 
 <body>
 <div id="throbber" style="display:none; min-height:120px;"></div>
 <div id="noty-holder"></div>
 <div id="wrapper">
-    <!-- Navigation -->
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-    </div>
-    <!-- Top Menu Items -->
-    <ul class="nav navbar-right top-nav">
-        <li><a href="#" data-placement="bottom" data-toggle="tooltip" data-original-title="Stats"><i class="fa fa-bar-chart-o"></i>
-        </a>
-        </li>
-        <li class="dropdown">
-            <a th:href="@{/logout}"><i class="fa fa-fw fa-power-off"></i> Logout</a>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <ul class="nav navbar-right top-nav">
+            <li><a href="#" data-placement="bottom" data-toggle="tooltip" data-original-title="Stats"><i class="fa fa-bar-chart-o"></i>
+            </a>
+            </li>
+            <li class="dropdown">
+                <a th:href="@{/logout}"><i class="fa fa-fw fa-power-off"></i> Logout</a>
 
         </li>
     </ul>
