@@ -1,4 +1,4 @@
-# work-place
+# work-place  <https://work-place-management.herokuapp.com/>
 This app help an organisation can keep track of their worker's record.
 ## Admin can:
 - Add, view, update and delete an employee's record
